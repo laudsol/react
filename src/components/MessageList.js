@@ -69,16 +69,24 @@ class MessageList extends React.Component {
     }
   }
 
+  checkAllMsgz = (NewState) => {
+    
+    console.log(NewState);
+  }
+
   render (){
 
     return (
       <div>
-      {this.state.messages.map((el,i) => {
-        console.log(i);
-        return (
-          <Message key={el.id} message={el} />
-        )
-      })}
+        <div>
+        {this.state.messages.map((el,i) => {
+          return (
+            <Message key={el.id} message={el} />
+          )
+        })}
+        </div>
+        <div>{this.props.checkAllMsgz}
+        </div>
       </div>
     )
   }

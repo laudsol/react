@@ -5,12 +5,16 @@ import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
 import Message from './components/Message'
 
+const checkAllMessages = (newState) => {
+
+}
+
 class App extends Component {
   render() {
     return (
       <div>
-        <Toolbar/>
-        <MessageList />
+        <Toolbar checkAllMsgs={checkAllMessages}/>
+        <MessageList checkAllMsgz={checkAllMessages}/>
       </div>
     );
   }
