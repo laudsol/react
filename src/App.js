@@ -11,7 +11,6 @@ class App extends Component {
       <div>
         <Toolbar/>
         <MessageList />
-        <Message message={message}/>
       </div>
     );
   }

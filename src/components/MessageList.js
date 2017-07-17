@@ -66,7 +66,6 @@ class MessageList extends React.Component {
           "labels": []
         }
       ]
-
     }
   }
 
@@ -75,8 +74,9 @@ class MessageList extends React.Component {
     return (
       <div>
       {this.state.messages.map((el,i) => {
+        console.log(i);
         return (
-          <Message message={this.state.messages[i]} />
+          <Message key={el.id} message={el} />
         )
       })}
       </div>
