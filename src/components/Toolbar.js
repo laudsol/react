@@ -16,8 +16,6 @@ class Toolbar extends React.Component {
     this.props.checkAllMsgs(newState);
   };
 
-
-
   render (){
 
     return (
@@ -29,7 +27,7 @@ class Toolbar extends React.Component {
           </p>
 
           <button className="btn btn-default">
-            <input type="checkbox" className="btn btn-default"onClick={this.toggleCheckAll} />
+            <input type="checkbox" className="btn btn-default" onClick={this.toggleCheckAll} />
           </button>
 
           <button className="btn btn-default" disabled="disabled">

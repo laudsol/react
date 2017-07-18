@@ -26,6 +26,8 @@ class Message extends React.Component {
     this.setState({ activeStar: !currentState });
   };
 
+
+
   render (){
     return (
       <div className={`row message ${this.state.activeRead ? 'read': 'unread'} ${this.state.activeCheck ? 'selected': null}`} >
