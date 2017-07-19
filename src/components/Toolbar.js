@@ -2,19 +2,10 @@ import React from 'react'
 
 class Toolbar extends React.Component {
 
-  constructor(props){
-    super(props)
-    this.state = {
-      activeCheckAll: false,
-  };
-  }
-
-  toggleCheckAll = (event) => {
-    let currentState = this.state.activeCheckAll;
-    this.setState({ activeCheckAll: !currentState });
-    let newState = !this.state.activeCheckAll
-    this.props.checkAllMsgs(newState);
-  };
+  // constructor(props){
+  //   super(props)
+  //
+  // }
 
   render (){
 
@@ -27,33 +18,33 @@ class Toolbar extends React.Component {
           </p>
 
           <button className="btn btn-default">
-            <input type="checkbox" className="btn btn-default" onClick={this.toggleCheckAll} />
+            <input type="checkbox" className="btn btn-default" onClick={this.props.toggleCheckAll} />
           </button>
 
-          <button className="btn btn-default" disabled="disabled">
+          <button className="btn btn-default" onClick={this.props.markRead}>
             Mark As Read
           </button>
 
-          <button className="btn btn-default" disabled="disabled">
+          <button className="btn btn-default" onClick={this.props.markUnread}>
             Mark As Unread
           </button>
 
-          <select className="form-control label-select" disabled="disabled">
+          <select className="form-control label-select">
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select" disabled="disabled">
+          <select className="form-control label-select">
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default" disabled="disabled">
-            <i className="fa fa-trash-o"></i>
+          <button className="btn btn-default">
+            <i className="fa fa-trash-o" onClick={this.props.toggleDelete}></i>
           </button>
         </div>
       </div>
