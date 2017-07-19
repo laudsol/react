@@ -67,16 +67,16 @@ import MessageList from './components/MessageList'
 
   class App extends React.Component {
 
-    constructor(props){
-      super(props)
-      this.state = {
-      activeCheckAll : false,
-      };
+  constructor(props){
+    super(props)
+    this.state = {
+    activeCheckAll : false,
     };
+  };
 
   toggleCheckAll = () => {
     const currentState = this.state.activeCheckAll
-    this.setState({activeCheckAll : ! currentState})
+    this.setState({activeCheckAll : !currentState})
     messages.forEach(function(el){
       el['checked'] = !currentState;
     });
@@ -128,12 +128,13 @@ import MessageList from './components/MessageList'
   }
 
   toggleDelete = () => {
-    console.log(messages);
-    // messages.forEach((el)=>{
-    //   if(el['checked']){
-    //     console.log(el);
-    //   }
-    // });
+    messages.forEach((el)=>{
+      if(el['checked']){
+        // messages.splice(el);
+        console.log(el);
+      }
+    });
+    // console.log(messages);
     this.setState({messages : messages});
   }
 
