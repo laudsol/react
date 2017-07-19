@@ -70,14 +70,13 @@ import MessageList from './components/MessageList'
     constructor(props){
       super(props)
       this.state = {
-      activeCheck: false,
       activeCheckAll : false,
       };
     };
 
   toggleCheckAll = () => {
-    const currentState = this.state.activeCheckAll;
-    this.setState({activeCheckAll : !currentState})
+    const currentState = this.state.activeCheckAll
+    this.setState({activeCheckAll : ! currentState})
     messages.forEach(function(el){
       el['checked'] = !currentState;
     });
@@ -85,9 +84,8 @@ import MessageList from './components/MessageList'
 
   toggleCheck = (index) => {
     index -= 1;
-    const currentState = this.state.activeCheck;
-    this.setState({activeCheck : !currentState})
-    messages[index]['checked'] = !currentState;
+    messages[index]['checked'] = !messages[index]['checked'];
+    this.setState({messages : messages});
   };
 
   toggleStar = (index) => {
@@ -107,7 +105,7 @@ import MessageList from './components/MessageList'
       if(el['checked']){
         el['read'] = true;
       }
-    })
+    });
     this.setState({messages : messages});
   };
 
@@ -116,23 +114,34 @@ import MessageList from './components/MessageList'
       if(el['checked']){
         el['read'] = false;
       }
-    })
+    });
     this.setState({messages : messages});
   };
 
-  toggleDelete = () => {
+  addLabel = () => {
     messages.forEach((el)=>{
       if(el['checked']){
         console.log(el);
       }
-    })
+    });
     this.setState({messages : messages});
   }
+
+  toggleDelete = () => {
+    console.log(messages);
+    // messages.forEach((el)=>{
+    //   if(el['checked']){
+    //     console.log(el);
+    //   }
+    // });
+    this.setState({messages : messages});
+  }
+
 
   render() {
     return (
       <div>
-        <Toolbar toggleCheckAll={this.toggleCheckAll} markRead={this.markRead} markUnread={this.markUnread} toggleDelete={this.toggleDelete}/>
+        <Toolbar toggleCheckAll={this.toggleCheckAll} markRead={this.markRead} markUnread={this.markUnread} addLabel={this.addLabel} toggleDelete={this.toggleDelete}/>
         <MessageList messages={messages} toggleCheck={this.toggleCheck} toggleStar={this.toggleStar} toggleRead={this.toggleRead} />
       </div>
     );
