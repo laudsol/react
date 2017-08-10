@@ -4,7 +4,7 @@ import Toolbar from './components/Toolbar'
 import MessageList from './components/MessageList'
 
 
-  const messages = [
+  var messages = [
     {
       "id": 1,
       "subject": "You can't input the protocol without calculating the mobile RSS protocol!",
@@ -65,39 +65,92 @@ import MessageList from './components/MessageList'
     }
   ];
 
+  messages.forEach(function(el){
+    el['checked'] = false;
+  });
+
   class App extends React.Component {
 
   constructor(props){
     super(props)
     this.state = {
     activeCheckAll : false,
+    partialCheck: false,
+    unreadMsgNum : 0,
     };
   };
 
+  componentDidMount() {
+    let unreadMsgCount = 0
+    messages.forEach(function(el){
+      if(!el['read']){
+        unreadMsgCount +=1
+      }
+    });
+    this.setState({unreadMsgNum : unreadMsgCount})
+  }
+
   toggleCheckAll = () => {
-    const currentState = this.state.activeCheckAll
-    this.setState({activeCheckAll : !currentState})
+    const currentState = this.state.activeCheckAll;
+    this.setState({activeCheckAll : !currentState});
+    this.setState({partialCheck : false});
     messages.forEach(function(el){
       el['checked'] = !currentState;
     });
   };
 
-  toggleCheck = (index) => {
-    index -= 1;
+  toggleCheck = (id) => {
+    let index;
+    messages.forEach(function(el,i){
+      if(id === el.id){
+        index = i;
+      }
+    });
     messages[index]['checked'] = !messages[index]['checked'];
-    this.setState({messages : messages});
+    let countChecked = 0;
+    messages.forEach(function(el){
+      if(el['checked']){
+        countChecked += 1;
+      }
+    });
+    if(countChecked > 0 && countChecked < messages.length){
+      this.setState({activeCheckAll : false})
+      this.setState({partialCheck : true});
+    } else if (countChecked === messages.length) {
+      this.setState({activeCheckAll : true})
+      this.setState({partialCheck : false});
+    }  else {
+      this.setState({activeCheckAll : false});
+      this.setState({partialCheck : false});
+    }
   };
 
-  toggleStar = (index) => {
-    index -= 1;
+  toggleStar = (id) => {
+    let index;
+    messages.forEach(function(el,i){
+      if(id === el.id){
+        index = i;
+      }
+    });
     messages[index]['starred'] = !messages[index]['starred'];
     this.setState({messages : messages});
   };
 
-  toggleRead = (index) => {
-    index -= 1;
+  toggleRead = (id) => {
+    let index;
+    messages.forEach(function(el,i){
+      if(id === el.id){
+        index = i;
+      }
+    });
     messages[index]['read'] = true;
-    this.setState({messages : messages});
+    let unreadMsgCount = 0
+    messages.forEach(function(el){
+      if(!el['read']){
+        unreadMsgCount +=1
+      }
+    });
+    this.setState({unreadMsgNum : unreadMsgCount})
   };
 
   markRead = () => {
@@ -107,6 +160,13 @@ import MessageList from './components/MessageList'
       }
     });
     this.setState({messages : messages});
+    let unreadMsgCount = 0
+    messages.forEach(function(el){
+      if(!el['read']){
+        unreadMsgCount +=1
+      }
+    });
+    this.setState({unreadMsgNum : unreadMsgCount})
   };
 
   markUnread = () => {
@@ -116,25 +176,41 @@ import MessageList from './components/MessageList'
       }
     });
     this.setState({messages : messages});
+    let unreadMsgCount = 0
+    messages.forEach(function(el){
+      if(!el['read']){
+        unreadMsgCount +=1
+      }
+    });
+    this.setState({unreadMsgNum : unreadMsgCount})
   };
 
-  addLabel = () => {
+  addLabel = (event) => {
     messages.forEach((el)=>{
-      if(el['checked']){
-        console.log(el);
+      if(el['checked'] && !el['labels'].includes(event.target.value)){
+        el['labels'].push(event.target.value);
+      }
+    });
+    this.setState({messages : messages});
+  }
+
+  removeLabel = (event) => {
+    messages.forEach((el)=>{
+      if(el['checked'] && el['labels'].includes(event.target.value)){
+        el['labels'].splice((el['labels'].indexOf(event.target.value)),1);
       }
     });
     this.setState({messages : messages});
   }
 
   toggleDelete = () => {
-    messages.forEach((el)=>{
-      if(el['checked']){
-        // messages.splice(el);
-        console.log(el);
+    let newMsgArr = [];
+    messages.forEach((el,i)=>{
+      if(!el['checked']){
+        newMsgArr.push(el);
       }
     });
-    // console.log(messages);
+    messages = newMsgArr;
     this.setState({messages : messages});
   }
 
@@ -142,7 +218,7 @@ import MessageList from './components/MessageList'
   render() {
     return (
       <div>
-        <Toolbar toggleCheckAll={this.toggleCheckAll} markRead={this.markRead} markUnread={this.markUnread} addLabel={this.addLabel} toggleDelete={this.toggleDelete}/>
+        <Toolbar toggleCheckAll={this.toggleCheckAll} activeCheckAll={this.state.activeCheckAll} markRead={this.markRead} markUnread={this.markUnread} addLabel={this.addLabel} removeLabel={this.removeLabel} toggleDelete={this.toggleDelete} unreadMsgNum={this.state.unreadMsgNum} partialCheck={this.state.partialCheck}/>
         <MessageList messages={messages} toggleCheck={this.toggleCheck} toggleStar={this.toggleStar} toggleRead={this.toggleRead} />
       </div>
     );

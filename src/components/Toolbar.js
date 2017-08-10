@@ -12,12 +12,12 @@ class Toolbar extends React.Component {
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
-            <span className="badge badge">2</span>
+            <span className="badge badge">{this.props.unreadMsgNum}</span>
             unread messages
           </p>
 
-          <button className="btn btn-default">
-            <input type="checkbox" className="btn btn-default" onClick={this.props.toggleCheckAll} />
+          <button className="btn btn-default" >
+            <input type="checkbox" className={`btn btn-default ${this.props.partialCheck? 'fa fa-minus-square-o' : null}`} checked={this.props.activeCheckAll || ''} onClick={this.props.toggleCheckAll} />{this.props.activeCheckAll}
           </button>
 
           <button className="btn btn-default" onClick={this.props.markRead}>
@@ -28,15 +28,15 @@ class Toolbar extends React.Component {
             Mark As Unread
           </button>
 
-          <select className="form-control label-select" onChange={this.props.addLabel}>
-            <option>Apply label</option>
+          <select className="form-control label-select"  onChange={this.props.addLabel}>
+            <option selected disabled>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select">
-            <option>Remove label</option>
+          <select className="form-control label-select" onChange={this.props.removeLabel}>
+            <option selected disabled>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
